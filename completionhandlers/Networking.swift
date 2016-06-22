@@ -16,7 +16,7 @@ class Networking: NSObject{
         self.password = password
     }
     
-    func loginToUdacity(completionHandler: (connection: Bool?, statusCode: Int?, error: NSError?) -> Void) {
+    func loginToUdacity(completionHandler: (connection: Bool?, statusCode: Int?, error: NSError?) -> Void) { // completion handler here... mess with the params to get a better understanding
         // from udacity api docs
         print("called")
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
@@ -32,8 +32,10 @@ class Networking: NSObject{
                 print("\(error)")
                 if(error!.code == -1009){
                     print("no connection")
-                    completionHandler(connection: false, statusCode: nil, error: error)
+                    completionHandler(connection: false, statusCode: nil, error: error) // call completion handler with the error
                     return
+                }else{
+                    completionHandler(connection: false, statusCode: nil, error: error) // call completion handler with the error even if status code 
                 }
             }
             let statusCode = (response as? NSHTTPURLResponse)?.statusCode

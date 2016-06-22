@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var usernameTextField: UITextField!
@@ -18,17 +18,27 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
         activityIndicator.hidesWhenStopped = true //makes sure that the activity indicator is hidden
         activityIndicator.stopAnimating()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func alert(title: String, message: String){
+        /* http://nshipster.com/uialertcontroller/ */
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+        }
+        alertController.addAction(OKAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     @IBAction func functionCallPressed(sender: AnyObject) {
+        if ((usernameTextField.text?.isEmpty == true) || (passwordTextField.text?.isEmpty == true)) {
+            alert("Text field(s) empty", message: "Please fill in both text fields to proceed")
+            return
+        }
         let networking = Networking(username: usernameTextField.text!, password: passwordTextField.text!) // initialize with username and password so we can login with them in the loginToUdacity() method
         resultLabel.hidden = true // hides the results label so it looks like it turned into an activityIndicator
         activityIndicator.startAnimating() // starts animating the activityIndicator
