@@ -43,6 +43,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         resultLabel.hidden = true // hides the results label so it looks like it turned into an activityIndicator
         activityIndicator.startAnimating() // starts animating the activityIndicator
         networking.loginToUdacity() { (connection, statusCode, error) -> Void in
+            // MARK: for debugging purposes
             print("something")
             print(error)
             print(connection)
