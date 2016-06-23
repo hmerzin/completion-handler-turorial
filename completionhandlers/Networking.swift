@@ -9,21 +9,15 @@
 import Foundation
 import UIKit
 class Networking: NSObject{
-    var username: String
-    var password: String
-    init(username: String, password: String){
-        self.username = username
-        self.password = password
-    }
     
-    func loginToUdacity(completionHandler: (connection: Bool?, statusCode: Int?, error: NSError?) -> Void) { // completion handler here... mess with the params to get a better understanding
+    func loginToUdacity(completionHandler: (connection: Bool?, statusCode: Int?, error: NSError?) -> Void, username: String?, password: String?) { // completion handler here... mess with the params to get a better understanding
         // from udacity api docs
         print("called")
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = "{\"udacity\": {\"username\": \"\(self.username)\", \"password\": \"\(self.password)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPBody = "{\"udacity\": {\"username\": \"\(username!)\", \"password\": \"\(password!)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             print("began")
@@ -43,7 +37,7 @@ class Networking: NSObject{
             if error == nil {
                 print("error is nil")
                 let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-                // print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+                print(NSString(data: newData, encoding: NSUTF8StringEncoding))
                 let parsedResult: AnyObject!
                 do {
                     parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments)

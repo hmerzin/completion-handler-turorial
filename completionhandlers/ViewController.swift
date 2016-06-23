@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
         usernameTextField.delegate = self
         passwordTextField.delegate = self
         activityIndicator.hidesWhenStopped = true //makes sure that the activity indicator is hidden
@@ -39,10 +40,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             alert("Text field(s) empty", message: "Please fill in both text fields to proceed")
             return
         }
-        let networking = Networking(username: usernameTextField.text!, password: passwordTextField.text!) // initialize with username and password so we can login with them in the loginToUdacity() method
+        let networking = Networking() // initialize with username and password so we can login with them in the loginToUdacity() method
         resultLabel.hidden = true // hides the results label so it looks like it turned into an activityIndicator
         activityIndicator.startAnimating() // starts animating the activityIndicator
-        networking.loginToUdacity() { (connection, statusCode, error) -> Void in
+        networking.loginToUdacity( { (connection, statusCode, error) -> Void in
             // MARK: for debugging purposes
             print("something")
             print(error)
@@ -70,8 +71,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     self.resultLabel.text = "Invalid Credentials 🔒"
                 }
             }
-        }
-        
+            }, username: self.usernameTextField.text, password: self.passwordTextField.text) //finish all theparams
         
     }
     
