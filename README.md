@@ -11,4 +11,4 @@ time... Feel free to submit a pr if you have anything to add.
 3) click `done` to dismiss the keyboard and look at the result
 
 
-making this taught me about completion handlers and how to make sure all updates from the asynchronous request happen on time
+Making this taught me about completion handlers and how to make sure all updates from the asynchronous request happen on time
